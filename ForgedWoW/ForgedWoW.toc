@@ -1,0 +1,19 @@
+## Interface: 90207
+## Title : |cFF87270cForged|r WoW
+## Notes: Forged WoW Interface
+## Author: Forged WoW
+## DefaultState: Enabled
+## LoadOnDemand: 0
+
+
+ForgeConnection.lua
+Components\TalentTree\Constants.lua
+Components\TalentTree\TalentTree.lua
+Components\TalentTree\Initialize.lua
+Components\TalentTree\Functions.lua
+Components\TalentTree\HookScripts.lua
+Components\Tooltips\spells.lua
+Components\Tooltips\index.lua
+
+
+initializeMod.lua
