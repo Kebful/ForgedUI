@@ -11,14 +11,15 @@ TalentTree = {
     INITIALIZED        = false;
 }
 
-TalentTreeWindow = CreateFrame("Frame", NULL, UIParent);
+TalentTreeWindow = CreateFrame("Frame", nil, UIParent, "BackdropTemplate");
 TalentTreeWindow:SetSize(946, 946);
 TalentTreeWindow:SetPoint("CENTER", -20, -120)
 TalentTreeWindow:SetFrameLevel(1);
-TalentTreeWindow:SetBackdrop({
+TalentTreeWindow.backdropInfo = {
     bgFile = CONSTANTS.UI.MAIN_BG,
     tile = false,
-});
+};
+TalentTreeWindow:ApplyBackdrop()
 TalentTreeWindow:Hide();
 
 TalentTreeWindow.Container = CreateFrame("Frame", TalentTreeWindow.Container, TalentTreeWindow);
@@ -47,21 +48,23 @@ end)
 TalentTreeWindow.Container.CloseButtonForgeSkills:SetSize(34, 34);
 TalentTreeWindow.Container.CloseButtonForgeSkills:SetPoint("TOPRIGHT", -15, -75);
 TalentTreeWindow.Container.CloseButtonForgeSkills.Circle = CreateFrame("Frame",
-    TalentTreeWindow.Container.CloseButtonForgeSkills.Circle, TalentTreeWindow.Container.CloseButtonForgeSkills)
+    TalentTreeWindow.Container.CloseButtonForgeSkills.Circle, TalentTreeWindow.Container.CloseButtonForgeSkills, "BackdropTemplate")
 TalentTreeWindow.Container.CloseButtonForgeSkills.Circle:SetSize(40, 40);
 TalentTreeWindow.Container.CloseButtonForgeSkills.Circle:SetPoint("CENTER", -1.5, -1);
-TalentTreeWindow.Container.CloseButtonForgeSkills.Circle:SetBackdrop({
+TalentTreeWindow.Container.CloseButtonForgeSkills.Circle.backdropInfo = {
     bgFile = CONSTANTS.UI.BORDER_CLOSE_BTN
-})
+}
+TalentTreeWindow.Container.CloseButtonForgeSkills.Circle:ApplyBackdrop()
 TalentTreeWindow.Container.CloseButtonForgeSkills:Hide();
 
-TalentTreeWindow.ChoiceSpecs = CreateFrame("Frame", TalentTreeWindow.ChoiceSpecs, TalentTreeWindow.Container);
+TalentTreeWindow.ChoiceSpecs = CreateFrame("Frame", TalentTreeWindow.ChoiceSpecs, TalentTreeWindow.Container, "BackdropTemplate");
 TalentTreeWindow.ChoiceSpecs:SetSize(TalentTreeWindow:GetWidth(), TalentTreeWindow:GetHeight());
 TalentTreeWindow.ChoiceSpecs:SetPoint("TOP", 4, 22);
 TalentTreeWindow.ChoiceSpecs:SetFrameLevel(15)
-TalentTreeWindow.ChoiceSpecs:SetBackdrop({
+TalentTreeWindow.ChoiceSpecs.backdropInfo = {
     edgeSize = 24,
     bgFile = CONSTANTS.UI.BACKGROUND_SPECS,
-})
+}
+TalentTreeWindow.ChoiceSpecs:ApplyBackdrop()
 TalentTreeWindow.ChoiceSpecs.Spec = {};
 TalentTreeWindow.ChoiceSpecs:Hide();
