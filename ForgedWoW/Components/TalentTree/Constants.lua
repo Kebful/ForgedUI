@@ -8,7 +8,7 @@ CONSTANTS = {
         PRIEST = "Interface\\Icons\\INV_Staff_30",
         WARRIOR = "Interface\\Icons\\INV_Sword_27",
         SHAMAN = "Interface\\Icons\\Spell_Nature_BloodLust",
-        PALADIN = "Interface\\AddOns\\addon\\UI-CharacterCreate-Classes_Paladin",
+        PALADIN = "Interface\\AddOns\\ForgedWoW\\UI\\SpecBG\\ClassIcons\\",
         ROGUE = "Interface\\Icons\\inv_throwingknife_04",
     },
     UI = {

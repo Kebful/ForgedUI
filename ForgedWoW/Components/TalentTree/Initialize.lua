@@ -1,4 +1,3 @@
-
 function ToggleTalentFrame(openPet)
     if openPet and HasPetUI() and PetCanBeAbandoned() then
         TalentFrame_LoadUI();

@@ -1,41 +1,97 @@
-## Interface: 90207
+## Interface: 30300
 ## Title : |cFF87270cForged|r WoW
 ## Notes: Forged WoW Interface
 ## Author: Forged WoW
-## DefaultState: Enabled
-## LoadOnDemand: 0
-## SavedVariables: ForgedWoW
-## OptionalDeps: Ace3
+## SavedVariables: forgedWoWConfig, forgedWoWCache
 
-Libs\LibStub\LibStub.lua
-Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
-Libs\AceAddon-3.0\AceAddon-3.0.xml
-Libs\AceEvent-3.0\AceEvent-3.0.xml
-Libs\AceTimer-3.0\AceTimer-3.0.xml
-Libs\AceBucket-3.0\AceBucket-3.0.xml
-Libs\AceHook-3.0\AceHook-3.0.xml
-Libs\AceDB-3.0\AceDB-3.0.xml
-Libs\AceDBOptions-3.0\AceDBOptions-3.0.xml
-Libs\AceLocale-3.0\AceLocale-3.0.xml
-Libs\AceConsole-3.0\AceConsole-3.0.xml
-Libs\AceGUI-3.0\AceGUI-3.0.xml
-Libs\AceConfig-3.0\AceConfig-3.0.xml
-Libs\AceComm-3.0\AceComm-3.0.xml
-Libs\AceTab-3.0\AceTab-3.0.xml
-Libs\AceSerializer-3.0\AceSerializer-3.0.xml
 
-Libs\Ace3.lua
 
 ForgeConnection.lua
-#Components\TalentTree\Constants.lua
-#Components\TalentTree\TalentTree.lua
-#Components\TalentTree\Initialize.lua
-#Components\TalentTree\Functions.lua
-#Components\TalentTree\HookScripts.lua
-#Components\Tooltips\spells.lua
-#Components\Tooltips\index.lua
-#Components\CharFrame\AzeritePaperDollItemOverlay.lua
-#Components\CharFrame\AzeritePaperDollItemOverlay.xml
-#Components\CharFrame\ForgePaperDollFrame.lua
-#Components\CharFrame\ForgePaperDollFrame.xml
+Components\TalentTree\Constants.lua
+Components\TalentTree\TalentTree.lua
+Components\TalentTree\Initialize.lua
+Components\TalentTree\Functions.lua
+Components\TalentTree\HookScripts.lua
+Components\Tooltips\spells.lua
+Components\Tooltips\index.lua
+
+
+# Emulation
+UI\SharedXML\C_MountJournal.lua
+UI\SharedXML\C_PetJournal.lua
+UI\SharedXML\C_Timer.lua
+UI\SharedXML\C_TimerAugment.lua
+UI\SharedXML\C_ToyBox.lua
+UI\SharedXML\C_Transmog.lua
+UI\SharedXML\C_TransmogCollection.lua
+UI\SharedXML\C_TransmogSets.lua
+UI\SharedXML\Emulation.lua
+
+# UI Upgrades
+UI\SharedXML\Util.lua
+UI\SharedXML\Pools.lua
+UI\SharedXML\SharedTooltipTemplates.lua
+UI\FrameXML\Constants.lua
+UI\FrameXML\Localization.enUS.lua
+UI\FrameXML\Fonts.xml
+UI\FrameXML\FontStyles.xml
+UI\FrameXML\UIParent.lua
+UI\FrameXML\TransmogUtil.lua
+UI\FrameXML\CollectionsUtil.lua
+UI\SharedXML\SharedUIPanelTemplates.xml
+UI\FrameXML\GameTooltip.lua
+UI\FrameXML\UIDropDownMenu.lua
+UI\FrameXML\UIPanelTemplates.lua
+UI\FrameXML\UIPanelTemplates.xml
+UI\SharedXML\ModelFrames.xml
+UI\SharedXML\DressUpModelFrameMixin.lua
+UI\FrameXML\WardrobeOutfits.xml
+UI\FrameXML\DressUpFrames.lua
+UI\SharedXML\HybridScrollFrame.lua
+UI\SharedXML\HybridScrollFrame.xml
+UI\FrameXML\StaticPopup.lua
+UI\FrameXML\MainMenuBarMicroButtons.xml
+UI\FrameXML\ActionButtonTemplate.xml
+
+# Localization
+Bindings.xml
+embeds.xml
+Locales\enUS.lua
+
+
+# Core Code
+ezCollections.xml
+Core\!Util.lua
+Core\IconOverlays.lua
+Core\InspectViewButton.lua
+Core\UIFixes.lua
+Core\Weapons.lua
+Core\ElvUI\!Upgrade.lua
+Core\ElvUI\Collectables.lua
+Core\ElvUI\DressingRoom.lua
+Core\ElvUI\MicroBar.lua
+Data\Atlas.lua
+Data\Camera.lua
+Data\Encounters.enUS.lua
+Data\Holidays.enUS.lua
+Data\Instances.enUS.lua
+Data\ItemSet.lua
+Data\Mounts.lua
+Data\Pets.lua
+Data\ItemToMount.lua
+Data\ItemToPet.lua
+Data\ItemDB.lua
+
+# Collections Code
+UI\Blizzard_Collections\Blizzard_CollectionTemplates.xml
+UI\Blizzard_Collections\Blizzard_Collections.xml
+UI\Blizzard_Collections\Blizzard_MountCollection.xml
+UI\Blizzard_Collections\Blizzard_PetCollection.xml
+UI\Blizzard_Collections\Blizzard_ToyBox.xml
+# UI\Blizzard_Collections\Blizzard_HeirloomCollection.xml
+UI\Blizzard_Collections\Blizzard_Wardrobe.xml
+
+
+UI\FrameXML\DressUpFrames.xml
+
 initializeMod.lua

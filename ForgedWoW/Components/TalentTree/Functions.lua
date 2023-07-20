@@ -5,6 +5,17 @@ function HideMainWindow()
     end
 end
 
+local function TablePrint(t)
+    for k, v in pairs(t) do
+        if type(v) == "table" then
+            print(k)
+            TablePrint(v)
+        else
+            print('\t', k, v)
+        end
+    end
+end
+
 function ToggleMainWindow()
     if TalentTreeWindow:IsShown() then
         TalentTreeWindow:Hide()
@@ -12,6 +23,7 @@ function ToggleMainWindow()
         ForgedWoWButton:SetButtonState("NORMAL");
     else
         TalentTreeWindow:Show()
+        TablePrint(TalentTreeWindow)
         PlaySound("TalentScreenOpen");
         ForgedWoWButton:SetButtonState("PUSHED", 1);
     end
@@ -29,6 +41,12 @@ end
 TalentTreeWindow:HookScript("OnHide", function() 
     ForgedWoWButton:SetButtonState("NORMAL");
 end)
+
+
+
+
+
+
 
 
 function FindTabInForgeSpell(tabId)
@@ -279,12 +297,27 @@ function SelectTab(tab)
     });
 end
 
-function GetPointByCharacterPointType(type)
+function GetPointByCharacterPointType(type, resetTalents)
     for _, talent in pairs(FORGE_ACTIVE_SPEC.TalentPoints) do
         if tonumber(type) == tonumber(talent.CharacterPointType) then
+            if resetTalents then
+                talent.AvailablePoints = CalculateAvailablePoints()
+            end
             return talent;
         end
     end
+end
+
+function CalculateAvailablePoints()
+    -- Calculate the available talent points based on the player's level
+    -- Get the player's level
+    local playerLevel = UnitLevel("player")
+    
+    -- Determine the base talent points based on the player's level
+    local basePoints = playerLevel >= 10 and playerLevel <= 60 and (playerLevel - 9) or 0
+    
+    -- Return the calculated base talent points
+    return basePoints
 end
 
 function ShowTypeTalentPoint(CharacterPointType, str)
@@ -314,7 +347,7 @@ function InitializeTalentLeft()
         TalentTreeWindow);
     TalentTreeWindow.TabsLeft:SetFrameLevel(5);
     TalentTreeWindow.TabsLeft:SetSize(846, 846);
-    TalentTreeWindow.TabsLeft:SetPoint("CENTER", -6, 360)
+    TalentTreeWindow.TabsLeft:SetPoint("CENTER", -220, 612)
     TalentTreeWindow.TabsLeft.Spec = {};
     local y = 0;
     for index, tab in ipairs(TalentTree.FORGE_TABS) do
@@ -323,13 +356,13 @@ function InitializeTalentLeft()
         TalentTreeWindow.TabsLeft.Spec[tab.Id] = CreateFrame("Button",
             TalentTreeWindow.TabsLeft.Spec[tab.Id], TalentTreeWindow.TabsLeft);
         TalentTreeWindow.TabsLeft.Spec[tab.Id]:SetPoint("LEFT", -25, y);
-        TalentTreeWindow.TabsLeft.Spec[tab.Id]:SetSize(145, 65);
+        TalentTreeWindow.TabsLeft.Spec[tab.Id]:SetSize(220, 70);
 
         TalentTreeWindow.TabsLeft.Spec[tab.Id].Button = CreateFrame("Button",
             TalentTreeWindow.TabsLeft.Spec[tab.Id], TalentTreeWindow.TabsLeft);
         TalentTreeWindow.TabsLeft.Spec[tab.Id].Button:SetPoint("LEFT", -25, y);
         TalentTreeWindow.TabsLeft.Spec[tab.Id].Button:SetFrameLevel(2000)
-        TalentTreeWindow.TabsLeft.Spec[tab.Id].Button:SetSize(165, 65);
+        TalentTreeWindow.TabsLeft.Spec[tab.Id].Button:SetSize(220, 70);
         TalentTreeWindow.TabsLeft.Spec[tab.Id].Title = TalentTreeWindow.TabsLeft.Spec[
             tab.Id]
             :CreateFontString()
@@ -414,10 +447,10 @@ function InitializeForgePoints()
     TalentTreeWindow.PointsBottomLeft = CreateFrame("Frame", TalentTreeWindow.PointsBottomLeft, TalentTreeWindow);
     TalentTreeWindow.PointsBottomLeft:SetSize(100, 100);
     TalentTreeWindow.PointsBottomLeft:SetFrameLevel(2000);
-    TalentTreeWindow.PointsBottomLeft:SetPoint("CENTER", -375, -48);
+    TalentTreeWindow.PointsBottomLeft:SetPoint("CENTER", -375, -55);
     TalentTreeWindow.PointsBottomLeft.Points = TalentTreeWindow.PointsBottomLeft:CreateFontString()
-    TalentTreeWindow.PointsBottomLeft.Points:SetFont("Fonts\\FRIZQT__.TTF", 11, "OUTLINE")
-    TalentTreeWindow.PointsBottomLeft.Points:SetPoint("CENTER", -10, 0)
+    TalentTreeWindow.PointsBottomLeft.Points:SetFont("Fonts\\FRIZQT__.TTF", 15, "OUTLINE")
+    TalentTreeWindow.PointsBottomLeft.Points:SetPoint("CENTER", -190, -24)
 end
 
 function InitializeProgressionBar()
@@ -425,7 +458,7 @@ function InitializeProgressionBar()
         TalentTreeWindow.ProgressBarPlaceholder = CreateFrame("Button", TalentTreeWindow.ProgressBarPlaceholder,
             TalentTreeWindow);
     end
-    TalentTreeWindow.ProgressBarPlaceholder:SetSize(945, 1000);
+    TalentTreeWindow.ProgressBarPlaceholder:SetSize(0, 0);
     TalentTreeWindow.ProgressBarPlaceholder:SetFrameLevel(11);
     TalentTreeWindow.ProgressBarPlaceholder:SetPoint("CENTER", 150.5, -528.5)
     TalentTreeWindow.ProgressBarPlaceholder:SetBackdrop({
@@ -445,13 +478,13 @@ function InitializeProgressionBar()
             TalentTreeWindow.ProgressBarPlaceholder
             , TalentTreeWindow);
         TalentTreeWindow.ProgressBarPlaceholder.Progression:SetFrameLevel(10);
-        TalentTreeWindow.ProgressBarPlaceholder.Progression:SetPoint("LEFT", 167, -146.1)
+        TalentTreeWindow.ProgressBarPlaceholder.Progression:SetPoint("LEFT", 0, 0)
         TalentTreeWindow.ProgressBarPlaceholder.Progression:SetBackdrop({
             bgFile = CONSTANTS.UI.COLORED_PROGRESS_BAR,
         });
     end
 
-    TalentTreeWindow.ProgressBarPlaceholder.Progression:SetSize(progression, 205);
+    TalentTreeWindow.ProgressBarPlaceholder.Progression:SetSize(progression, 0);
 
     if not TalentTreeWindow.ProgressBarPlaceholder.Text then
         TalentTreeWindow.ProgressBarPlaceholder.Text = TalentTreeWindow.ProgressBarPlaceholder:CreateFontString()
@@ -467,19 +500,19 @@ function InitializeGridForTalent()
         TalentTreeWindow.GridTalent:Hide();
     end
     TalentTreeWindow.GridTalent = CreateFrame("Frame", TalentTreeWindow.GridTalent, TalentTreeWindow.Container);
-    TalentTreeWindow.GridTalent:SetPoint("LEFT", -205, 0);
-    TalentTreeWindow.GridTalent:SetSize(800, 600);
+    TalentTreeWindow.GridTalent:SetPoint("LEFT", 10, 10);
+    TalentTreeWindow.GridTalent:SetSize(800, 800);
     TalentTreeWindow.GridTalent:Show();
     if not TalentTreeWindow.GridTalent.Talents then
         TalentTreeWindow.GridTalent.Talents = {};
     end
     local posX = 0;
-    for i = 1, 19 do
+    for i = 0, 21 do
         if not TalentTreeWindow.GridTalent.Talents[i] then
             TalentTreeWindow.GridTalent.Talents[i] = {};
         end
         local posY = 0;
-        for j = 1, 10 do
+        for j = 0, 21 do
             if TalentTreeWindow.GridTalent.Talents[i][j] then
                 TalentTreeWindow.GridTalent.Talents[i][j]:Hide();
                 TalentTreeWindow.GridTalent.Talents[i][j] = nil;
@@ -493,7 +526,7 @@ function InitializeGridForTalent()
                 TalentTreeWindow.GridTalent);
             TalentTreeWindow.GridTalent.Talents[i][j]:SetPoint("CENTER", posX, posY)
             TalentTreeWindow.GridTalent.Talents[i][j]:SetFrameLevel(9);
-            TalentTreeWindow.GridTalent.Talents[i][j]:SetSize(30, 30);
+            TalentTreeWindow.GridTalent.Talents[i][j]:SetSize(40, 40);
 
             TalentTreeWindow.GridTalent.Talents[i][j].TextureIcon = TalentTreeWindow.GridTalent.Talents[i][j
                 ]:CreateTexture();
@@ -502,8 +535,8 @@ function InitializeGridForTalent()
             TalentTreeWindow.GridTalent.Talents[i][j].Border = CreateFrame("Frame",
                 TalentTreeWindow.GridTalent.Talents[i][j].Border, TalentTreeWindow.GridTalent.Talents[i][j])
             TalentTreeWindow.GridTalent.Talents[i][j].Border:SetFrameLevel(10);
-            TalentTreeWindow.GridTalent.Talents[i][j].Border:SetPoint("CENTER", 0, 0);
-            TalentTreeWindow.GridTalent.Talents[i][j].Border:SetSize(48, 48);
+            TalentTreeWindow.GridTalent.Talents[i][j].Border:SetPoint("CENTER", -2, 0);
+            TalentTreeWindow.GridTalent.Talents[i][j].Border:SetSize(58, 58);
 
             TalentTreeWindow.GridTalent.Talents[i][j].Exclusivity = CreateFrame("Frame",
                 TalentTreeWindow.GridTalent.Talents[i][j].Exclusivity, TalentTreeWindow.GridTalent.Talents[i][j])
@@ -966,3 +999,12 @@ function InitializeTabForSpellsToForge(SkillToForges)
     TalentTree.FORGE_MAX_PAGE = Tablelength(TalentTree.FORGE_SPELLS_PAGES);
     switchPage(true);
 end
+
+-- Define the UnlearnTalents function
+function UnlearnTalents()
+    -- Call the WoW API function to confirm talent wipe
+    ConfirmTalentWipe()
+end
+
+
+

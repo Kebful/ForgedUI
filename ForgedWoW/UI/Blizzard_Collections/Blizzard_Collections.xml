@@ -1,0 +1,303 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	<Script file="Blizzard_Collections.lua"/>
+
+	<Button name="CollectionsJournalTab" inherits="CharacterFrameTabButtonTemplate" virtual="true">
+		<Scripts>
+			<OnClick>
+				if self:GetID() == 6 and self:GetParent() == CollectionsJournal then
+					HideUIPanel(CollectionsJournal);
+					if not ezCollections.Config.Wardrobe.WindowsLockTransmogrify then
+						WardrobeFrame:ClearAllPoints();
+						WardrobeFrame:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", CollectionsJournal:GetLeft(), CollectionsJournal:GetBottom());
+					end
+					CollectionsJournal_SetTab(WardrobeFrame, self:GetID());
+					ShowUIPanel(WardrobeFrame);
+					ezCollections:SetCVarBitfield("closedInfoFrames", LE_FRAME_TUTORIAL_EZCOLLECTIONS_TRANSMOG_TAB, true);
+					return;
+				elseif self:GetID() ~= 6 and self:GetParent() == WardrobeFrame then
+					HideUIPanel(WardrobeFrame);
+					if not ezCollections.Config.Wardrobe.WindowsLockCollections then
+						CollectionsJournal:ClearAllPoints();
+						CollectionsJournal:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", WardrobeFrame:GetLeft(), WardrobeFrame:GetBottom());
+					end
+					ShowUIPanel(CollectionsJournal);
+					CollectionsJournal_SetTab(CollectionsJournal, self:GetID());
+					return;
+				end
+				CollectionsJournal_SetTab(self:GetParent(), self:GetID());
+				PlaySound("igCharacterInfoTab");
+			</OnClick>
+		</Scripts>
+	</Button>
+
+	<Button name="CollectionsJournalTabCutoff" inherits="CollectionsJournalTab" virtual="true">
+		<Scripts>
+			<OnLoad>
+				self:SetFrameLevel(self:GetFrameLevel() + 4);
+				local textures =
+				{
+					_G[self:GetName().."LeftDisabled"],
+					_G[self:GetName().."MiddleDisabled"],
+					_G[self:GetName().."RightDisabled"],
+				};
+				for i, texture in ipairs(textures) do
+					texture:SetTexture([[Interface\AddOns\ForgedWoW\UI\UI-Character-ActiveTabCutoff]]);
+				end
+			</OnLoad>
+		</Scripts>
+	</Button>
+
+	<Frame name="CollectionsJournal" enableMouse="true" parent="UIParent" hidden="true" toplevel="true" frameStrata="HIGH" movable="true" clampedToScreen="true">
+		<Attributes>
+			<Attribute name="UIPanelLayout-defined" type="boolean" value="true"/>
+			<Attribute name="UIPanelLayout-enabled" type="boolean" value="true"/>
+			<Attribute name="UIPanelLayout-area" type="string" value="left"/>
+			<Attribute name="UIPanelLayout-pushable" type="number" value="0"/>
+			<Attribute name="UIPanelLayout-whileDead" type="boolean" value="true"/>
+			<Attribute name="UIPanelLayout-width" type="number" value="733"/>
+			<Attribute name="UIPanelLayout-xoffset" type="number" value="15"/>
+			<Attribute name="UIPanelLayout-yoffset" type="number" value="-14"/>
+		</Attributes>
+		<Size x="703" y="606"/>
+		<Layers>
+			<Layer level="BACKGROUND" textureSubLevel="-6">
+				<Texture name="$parentBg" file="Interface\AddOns\ForgedWoW\UI\FrameGeneral\UI-Background-Rock" horizTile="true" vertTile="true" parentKey="Bg">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="2" y="-21"/>
+						<Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentTitleBg" parentKey="TitleBg" inherits="_UI-Frame-TitleTileBg">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="2" y="-3"/>
+						<Anchor point="TOPRIGHT" x="-25" y="-3"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK" textureSubLevel="-1">
+				<Texture name="$parentPortrait" parentKey="portrait">
+					<Size x="61" y="61"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-6" y="8" />
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture name="$parentPortraitFrame" parentKey="PortraitFrame" inherits="UI-Frame-Portrait">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-14" y="11"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentTopRightCorner" parentKey="TopRightCorner" inherits="UI-Frame-TopCornerRight">
+					<Anchors>
+						<Anchor point="TOPRIGHT" x="0" y="1"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentTopLeftCorner" parentKey="TopLeftCorner" inherits="UI-Frame-TopLeftCorner" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-6" y="1"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentTopBorder" parentKey="TopBorder" inherits="_UI-Frame-TitleTile">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentPortraitFrame" relativePoint="TOPRIGHT" x="0" y="-10" />
+						<Anchor point="TOPRIGHT" relativeTo="$parentTopRightCorner" relativePoint="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+				<FontString name="$parentTitleText" inherits="GameFontNormal" text="" parentKey="TitleText" wordwrap="false">
+					<Anchors>
+						<Anchor point="TOP" x="0" y="-5"/>
+						<Anchor point="LEFT" x="60"/>
+						<Anchor point="RIGHT" x="-60"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="BORDER">
+				<Texture name="$parentTopTileStreaks" parentKey="TopTileStreaks" inherits="_UI-Frame-TopTileStreaks">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="-21"/>
+						<Anchor point="TOPRIGHT" x="-2" y="-21"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentBotLeftCorner" parentKey="BotLeftCorner" inherits="UI-Frame-BotCornerLeft">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="-6" y="-5"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentBotRightCorner" parentKey="BotRightCorner" inherits="UI-Frame-BotCornerRight">
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" x="0" y="-5"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentBottomBorder" parentKey="BottomBorder" inherits="_UI-Frame-Bot">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativeTo="$parentBotLeftCorner" relativePoint="BOTTOMRIGHT" y="0"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentBotRightCorner" relativePoint="BOTTOMLEFT" y="0"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentLeftBorder" parentKey="LeftBorder" inherits="!UI-Frame-LeftTile">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentPortraitFrame" relativePoint="BOTTOMLEFT" x="8" y="0" />
+						<Anchor point="BOTTOMLEFT" relativeTo="$parentBotLeftCorner" relativePoint="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentRightBorder" parentKey="RightBorder" inherits="!UI-Frame-RightTile">
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativeTo="$parentTopRightCorner" relativePoint="BOTTOMRIGHT" x="1"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentBotRightCorner" relativePoint="TOPRIGHT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Anchors>
+			<Anchor point="CENTER" x="0" y="0"/>
+		</Anchors>
+		<Frames>
+			<Button name="$parentCloseButton" inherits="UIPanelCloseButton" parentKey="CloseButton">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT">
+						<Offset x="4" y="5"/>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick function="PortraitFrameCloseButton_OnClick" />
+				</Scripts>
+			</Button>
+			<Button inherits="ezCollectionsMovingHeaderTemplate" />
+			<Button name="$parentPortraitButton">
+				<Size x="64" y="64" />
+				<Anchors>
+					<Anchor point="CENTER" relativeTo="$parentPortrait" />
+				</Anchors>
+				<HighlightTexture file="Interface\AddOns\ForgedWoW\UI\PortraitHighlight" alphaMode="ADD" alpha="0.75" />
+				<Scripts>
+					<OnLoad>
+						Mixin(self, SetShownMixin);
+						function self:UpdateVisibility()
+							local tab = ezCollections:GetCVar("petJournalTab");
+							self:SetShown(ezCollections.Config.Wardrobe.PortraitButton and (tab == 5 or tab == 6));
+						end
+					</OnLoad>
+					<OnClick>
+						HideUIPanel(CollectionsJournal);
+						if not ezCollections.Config.Wardrobe.WindowsLockTransmogrify then
+							WardrobeFrame:ClearAllPoints();
+							WardrobeFrame:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", CollectionsJournal:GetLeft(), CollectionsJournal:GetBottom());
+						end
+						ShowUIPanel(WardrobeFrame);
+						WardrobeFrame.PortraitHelpBox:Hide();
+						CollectionsJournal.PortraitHelpBox:Hide();
+						ezCollections:SetCVarBitfield("closedInfoFrames", LE_FRAME_TUTORIAL_EZCOLLECTIONS_PORTRAIT_BUTTON, true);
+					</OnClick>
+					<OnMouseDown>
+						local offset = 0.015;
+						self:GetParent().portrait:SetTexCoord(-offset, 1 - offset, -offset, 1 - offset);
+					</OnMouseDown>
+					<OnMouseUp>
+						self:GetParent().portrait:SetTexCoord(0, 1, 0, 1);
+					</OnMouseUp>
+					<OnEnter>
+						GameTooltip:SetOwner(self, "ANCHOR_RIGHT", -10, -10);
+						GameTooltip:SetText(ezCollections.L["Transmog.Switch.Transmogrify"]);
+						GameTooltip:Show();
+					</OnEnter>
+					<OnLeave function="GameTooltip_Hide" />
+				</Scripts>
+			</Button>
+			<Frame name="$parentPortraitHelpBox" parentKey="PortraitHelpBox" inherits="GlowBoxTemplate" enableMouse="true" frameStrata="DIALOG">
+				<Size x="280" y="100"/>
+				<Anchors>
+					<Anchor point="BOTTOM" relativeTo="$parentPortraitButton" relativePoint="TOP" x="108" y="22"/>
+				</Anchors>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString parentKey="Text" inherits="GameFontHighlightLeft" justifyV="TOP">
+							<Size x="248" y="0"/>
+							<Anchors>
+								<Anchor point="TOPLEFT" x="16" y="-22"/>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<Button parentKey="CloseButton" inherits="UIPanelCloseButton">
+						<Anchors>
+							<Anchor point="TOPRIGHT" x="6" y="6"/>
+						</Anchors>
+						<Scripts>
+							<OnClick>
+								self:GetParent():Hide();
+								ezCollections:SetCVarBitfield("closedInfoFrames", LE_FRAME_TUTORIAL_EZCOLLECTIONS_PORTRAIT_BUTTON, true);
+							</OnClick>
+						</Scripts>
+					</Button>
+					<Frame parentKey="Arrow" inherits="GlowBoxArrowTemplate">
+						<Anchors>
+							<Anchor point="TOP" relativePoint="BOTTOM" x="-108" y="3"/>
+						</Anchors>
+					</Frame>
+				</Frames>
+				<Scripts>
+					<OnLoad>
+						self.Arrow.Glow:ClearAllPoints();
+						self.Arrow.Glow:SetPoint("CENTER", self.Arrow.Arrow, "CENTER", 0, -4);
+					</OnLoad>
+					<OnShow>
+						self:SetFrameStrata("DIALOG");
+						self.Text:SetText(ezCollections.L["Tutorial.PortraitButton"]);
+						self:SetHeight(self.Text:GetHeight() + 42);
+						--if ezCollections:GetCVarBitfield("closedInfoFrames", LE_FRAME_TUTORIAL_EZCOLLECTIONS_PORTRAIT_BUTTON) then
+							self:Hide();
+						--end
+					</OnShow>
+				</Scripts>
+			</Frame>
+			<Button name="$parentTab1" inherits="CollectionsJournalTabCutoff" text="MOUNTS" id="1">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" x="11" y="2"/>
+				</Anchors>
+			</Button>
+			<Button name="$parentTab2" inherits="CollectionsJournalTabCutoff" text="COMPANIONS" id="2">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentTab1" relativePoint="RIGHT" x="-16" y="0"/>
+				</Anchors>
+			</Button>
+			<Button name="$parentTab3" inherits="CollectionsJournalTab" text="TOY_BOX" id="3">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentTab2" relativePoint="RIGHT" x="-16" y="0"/>
+				</Anchors>
+			</Button>
+			<Button name="$parentTab4" inherits="CollectionsJournalTab" text="HEIRLOOMS" id="4">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentTab3" relativePoint="RIGHT" x="-16" y="0"/>
+				</Anchors>
+			</Button>
+			<Button name="$parentTab5" inherits="CollectionsJournalTab" text="WARDROBE" id="5">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentTab4" relativePoint="RIGHT" x="-16" y="0"/>
+				</Anchors>
+			</Button>
+			<Button name="$parentTab6" inherits="CollectionsJournalTabCutoff" text="TRANSMOGRIFY" id="6">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentTab5" relativePoint="RIGHT" x="0" y="0"/>
+				</Anchors>
+			</Button>
+			
+		</Frames>
+
+		<Scripts>
+			<OnLoad>
+				CollectionsJournalTitleText:SetText(COLLECTIONS);
+				SetPortraitToTexture(CollectionsJournalPortrait, [[Interface\AddOns\ForgedWoW\UI\Icons\MountJournalPortrait]]);
+				CollectionsJournalTab4.isDisabled = true;
+				PanelTemplates_SetNumTabs(self, 6);
+
+				-- Moved to ezCollections's OnInitialize to have CVars loaded
+				-- PanelTemplates_SetTab(self, tonumber(ezCollections:GetCVar("petJournalTab")) or 5);
+			</OnLoad>
+			<OnShow function="CollectionsJournal_OnShow"/>
+			<OnHide function="CollectionsJournal_OnHide"/>
+		</Scripts>
+	</Frame>
+</Ui>

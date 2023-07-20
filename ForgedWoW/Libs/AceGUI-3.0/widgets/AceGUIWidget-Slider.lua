@@ -2,7 +2,7 @@
 Slider Widget
 Graphical Slider, like, for Range values.
 -------------------------------------------------------------------------------]]
-local Type, Version = "Slider", 23
+local Type, Version = "Slider", 20
 local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
 
@@ -57,13 +57,10 @@ local function Frame_OnMouseDown(frame)
 	AceGUI:ClearFocus()
 end
 
-local function Slider_OnValueChanged(frame, newvalue)
+local function Slider_OnValueChanged(frame)
 	local self = frame.obj
 	if not frame.setup then
-		if self.step and self.step > 0 then
-			local min_value = self.min or 0
-			newvalue = floor((newvalue - min_value) / self.step + 0.5) * self.step + min_value
-		end
+		local newvalue = frame:GetValue()
 		if newvalue ~= self.value and not self.disabled then
 			self.value = newvalue
 			self:Fire("OnValueChanged", newvalue)
@@ -105,9 +102,9 @@ local function EditBox_OnEnterPressed(frame)
 	else
 		value = tonumber(value)
 	end
-
+	
 	if value then
-		PlaySound(856) -- SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON
+		PlaySound("igMainMenuOptionCheckBoxOn")
 		self.slider:SetValue(value)
 		self:Fire("OnMouseUp", value)
 	end
@@ -201,15 +198,15 @@ local methods = {
 Constructor
 -------------------------------------------------------------------------------]]
 local SliderBackdrop  = {
-	bgFile = "Interface\\Buttons\\UI-SliderBar-Background",
-	edgeFile = "Interface\\Buttons\\UI-SliderBar-Border",
+	bgFile = "Interface\\AddOns\\ForgedWoW\\UI\\Buttons\\UI-SliderBar-Background",
+	edgeFile = "Interface\\AddOns\\ForgedWoW\\UI\\Buttons\\UI-SliderBar-Border",
 	tile = true, tileSize = 8, edgeSize = 8,
 	insets = { left = 3, right = 3, top = 6, bottom = 6 }
 }
 
 local ManualBackdrop = {
-	bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
-	edgeFile = "Interface\\ChatFrame\\ChatFrameBackground",
+	bgFile = "Interface\\AddOns\\ForgedWoW\\UI\\ChatFrame\\ChatFrameBackground",
+	edgeFile = "Interface\\AddOns\\ForgedWoW\\UI\\ChatFrame\\ChatFrameBackground",
 	tile = true, edgeSize = 1, tileSize = 5,
 }
 
@@ -225,12 +222,12 @@ local function Constructor()
 	label:SetJustifyH("CENTER")
 	label:SetHeight(15)
 
-	local slider = CreateFrame("Slider", nil, frame, BackdropTemplateMixin and "BackdropTemplate" or nil)
+	local slider = CreateFrame("Slider", nil, frame)
 	slider:SetOrientation("HORIZONTAL")
 	slider:SetHeight(15)
 	slider:SetHitRectInsets(0, 0, -10, 0)
 	slider:SetBackdrop(SliderBackdrop)
-	slider:SetThumbTexture("Interface\\Buttons\\UI-SliderBar-Button-Horizontal")
+	slider:SetThumbTexture("Interface\\AddOns\\ForgedWoW\\UI\\Buttons\\UI-SliderBar-Button-Horizontal")
 	slider:SetPoint("TOP", label, "BOTTOM")
 	slider:SetPoint("LEFT", 3, 0)
 	slider:SetPoint("RIGHT", -3, 0)
@@ -247,7 +244,7 @@ local function Constructor()
 	local hightext = slider:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
 	hightext:SetPoint("TOPRIGHT", slider, "BOTTOMRIGHT", -2, 3)
 
-	local editbox = CreateFrame("EditBox", nil, frame, BackdropTemplateMixin and "BackdropTemplate" or nil)
+	local editbox = CreateFrame("EditBox", nil, frame)
 	editbox:SetAutoFocus(false)
 	editbox:SetFontObject(GameFontHighlightSmall)
 	editbox:SetPoint("TOP", slider, "BOTTOM")

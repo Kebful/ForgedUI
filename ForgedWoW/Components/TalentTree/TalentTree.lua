@@ -11,30 +11,27 @@ TalentTree = {
     INITIALIZED        = false;
 }
 
-TalentTreeWindow = CreateFrame("Frame", nil, UIParent, "BackdropTemplate");
-TalentTreeWindow:SetSize(946, 946);
-TalentTreeWindow:SetPoint("CENTER", -20, -120)
+TalentTreeWindow = CreateFrame("Frame", NULL, UIParent);
+TalentTreeWindow:SetSize(1385, 1500); --- LEFT/RIGHT -- --UP/DOWN --
+TalentTreeWindow:SetPoint("CENTER", 0, -250) --- LEFT/RIGHT -- --UP/DOWN --
 TalentTreeWindow:SetFrameLevel(1);
-TalentTreeWindow.backdropInfo = {
+TalentTreeWindow:SetBackdrop({
     bgFile = CONSTANTS.UI.MAIN_BG,
     tile = false,
-};
-TalentTreeWindow:ApplyBackdrop()
+});
 TalentTreeWindow:Hide();
-
 TalentTreeWindow.Container = CreateFrame("Frame", TalentTreeWindow.Container, TalentTreeWindow);
-TalentTreeWindow.Container:SetSize(946, 946);
+TalentTreeWindow.Container:SetSize(1370, 1500); -- Talent Tree Window's Background --
 TalentTreeWindow.Container:SetPoint("CENTER", 0, 0)
 TalentTreeWindow.Container:SetFrameLevel(2);
-
 TalentTreeWindow.CloseButton = CreateFrame("Button", TalentTreeWindow.CloseButton, TalentTreeWindow, "UIPanelCloseButton")
-TalentTreeWindow.CloseButton:SetSize(28, 28);
-TalentTreeWindow.CloseButton:SetPoint("TOPRIGHT", 1, -9);
+TalentTreeWindow.CloseButton:SetSize(46, 47); --Exit Button on Upper Right--
+TalentTreeWindow.CloseButton:SetPoint("TOPRIGHT", 3, -14);
 
 TalentTreeWindow.ClassIcon = CreateFrame("Frame", TalentTreeWindow.ClassIcon, TalentTreeWindow);
-TalentTreeWindow.ClassIcon:SetSize(55, 55);
+TalentTreeWindow.ClassIcon:SetSize(90, 94);
 TalentTreeWindow.ClassIcon:SetFrameLevel(0);
-TalentTreeWindow.ClassIcon:SetPoint("TOPLEFT", 6, -5)
+TalentTreeWindow.ClassIcon:SetPoint("TOPLEFT", 8, -4);
 TalentTreeWindow.ClassIcon.Texture = TalentTreeWindow.ClassIcon:CreateTexture()
 TalentTreeWindow.ClassIcon.Texture:SetAllPoints(TalentTreeWindow.ClassIcon)
 SetPortraitToTexture(TalentTreeWindow.ClassIcon.Texture, CONSTANTS.classIcon[string.upper(CONSTANTS.CLASS)])
@@ -48,23 +45,21 @@ end)
 TalentTreeWindow.Container.CloseButtonForgeSkills:SetSize(34, 34);
 TalentTreeWindow.Container.CloseButtonForgeSkills:SetPoint("TOPRIGHT", -15, -75);
 TalentTreeWindow.Container.CloseButtonForgeSkills.Circle = CreateFrame("Frame",
-    TalentTreeWindow.Container.CloseButtonForgeSkills.Circle, TalentTreeWindow.Container.CloseButtonForgeSkills, "BackdropTemplate")
+	TalentTreeWindow.Container.CloseButtonForgeSkills.Circle, TalentTreeWindow.Container.CloseButtonForgeSkills)
 TalentTreeWindow.Container.CloseButtonForgeSkills.Circle:SetSize(40, 40);
 TalentTreeWindow.Container.CloseButtonForgeSkills.Circle:SetPoint("CENTER", -1.5, -1);
-TalentTreeWindow.Container.CloseButtonForgeSkills.Circle.backdropInfo = {
+TalentTreeWindow.Container.CloseButtonForgeSkills.Circle:SetBackdrop({
     bgFile = CONSTANTS.UI.BORDER_CLOSE_BTN
-}
-TalentTreeWindow.Container.CloseButtonForgeSkills.Circle:ApplyBackdrop()
+})
 TalentTreeWindow.Container.CloseButtonForgeSkills:Hide();
 
-TalentTreeWindow.ChoiceSpecs = CreateFrame("Frame", TalentTreeWindow.ChoiceSpecs, TalentTreeWindow.Container, "BackdropTemplate");
+TalentTreeWindow.ChoiceSpecs = CreateFrame("Frame", TalentTreeWindow.ChoiceSpecs, TalentTreeWindow.Container);
 TalentTreeWindow.ChoiceSpecs:SetSize(TalentTreeWindow:GetWidth(), TalentTreeWindow:GetHeight());
-TalentTreeWindow.ChoiceSpecs:SetPoint("TOP", 4, 22);
+TalentTreeWindow.ChoiceSpecs:SetPoint("TOP", 30, 30);
 TalentTreeWindow.ChoiceSpecs:SetFrameLevel(15)
-TalentTreeWindow.ChoiceSpecs.backdropInfo = {
+TalentTreeWindow.ChoiceSpecs:SetBackdrop({
     edgeSize = 24,
     bgFile = CONSTANTS.UI.BACKGROUND_SPECS,
-}
-TalentTreeWindow.ChoiceSpecs:ApplyBackdrop()
+})
 TalentTreeWindow.ChoiceSpecs.Spec = {};
 TalentTreeWindow.ChoiceSpecs:Hide();
