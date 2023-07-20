@@ -1000,11 +1000,6 @@ function InitializeTabForSpellsToForge(SkillToForges)
     switchPage(true);
 end
 
--- Define the UnlearnTalents function
-function UnlearnTalents()
-    -- Call the WoW API function to confirm talent wipe
-    ConfirmTalentWipe()
-end
 
 
 

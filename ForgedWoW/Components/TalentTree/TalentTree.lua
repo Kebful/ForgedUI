@@ -63,3 +63,44 @@ TalentTreeWindow.ChoiceSpecs:SetBackdrop({
 })
 TalentTreeWindow.ChoiceSpecs.Spec = {};
 TalentTreeWindow.ChoiceSpecs:Hide();
+
+_G["TalentTreeWindow"] = TalentTreeWindow
+table.insert(UISpecialFrames, "TalentTreeWindow")
+
+
+-- Define your popup dialog
+StaticPopupDialogs["CONFIRM_TALENT_WIPE"] = {
+    text = "Are you sure you want to reset all of your talents?",
+    button1 = "Yes",
+    button2 = "No",
+    OnAccept = function()
+        local playerLevel = UnitLevel("player") -- Get the player's level
+        if playerLevel >= 10 then
+            PushForgeMessage(ForgeTopic.UNLEARN_TALENT, "-1;0")
+            DEFAULT_CHAT_FRAME:AddMessage("Your talents have been reset.", 1, 1, 0) -- Sends a yellow message
+			local talent = GetPointByCharacterPointType(tostring(CharacterPointType.TALENT_SKILL_TREE), true)
+            TalentTreeWindow.PointsBottomLeft.Points:SetText(talent.AvailablePoints .. " talent points")
+        else
+            DEFAULT_CHAT_FRAME:AddMessage("You must be at least level 10 to reset talents.", 1, 0, 0) -- Sends a red error message
+        end
+    end,
+    timeout = 0,
+    whileDead = true,
+    hideOnEscape = true,
+    preferredIndex = 3,  -- prevent taint from Blizzard UI
+    OnShow = function(self)
+        self:ClearAllPoints()
+        self:SetPoint("CENTER", 50, 250)  -- position it to center
+        self:SetSize(800, 800)  -- adjust the size as necessary
+    end
+}
+
+-- Create your button
+local resetButton = CreateFrame("Button", "ResetTalentsButton", TalentTreeWindow, "UIPanelButtonTemplate")
+resetButton:SetSize(90, 30)  -- Set the size of the button
+resetButton:SetPoint("TOPRIGHT", -580, -813)  -- Position the button at the top right of the TalentTreeWindow
+resetButton:SetText("Reset Talents")  -- Set the text of the button
+
+resetButton:SetScript("OnClick", function()
+    StaticPopup_Show ("CONFIRM_TALENT_WIPE")
+end)
