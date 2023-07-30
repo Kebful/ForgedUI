@@ -3,12 +3,16 @@
 ## Notes: Forged WoW Interface
 ## Author: Forged WoW + tester
 
+ForgeConstants.lua
 ForgeConnection.lua
+
 Components\TalentTree\Constants.lua
 Components\TalentTree\TalentTree.lua
 Components\TalentTree\Initialize.lua
 Components\TalentTree\Functions.lua
 Components\TalentTree\HookScripts.lua
+Components\TalentTree\Microbar.lua
+
 Components\Tooltips\spells.lua
 
 # Core Code

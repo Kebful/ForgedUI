@@ -15,14 +15,14 @@ CONSTANTS = {
     UI = {
         SPECIALIZATION_BUTTON_BG_NORMAL = PATH .. "Buttons\\normal_button",
         SPECIALIZATION_BUTTON_BG_HOVER_OR_PUSHED = PATH .. "Buttons\\hover_button",
-        --SPECIALIZATION_BUTTON_BG_ACTIVE = PATH .. "Buttons\\active_button",
+        -- SPECIALIZATION_BUTTON_BG_ACTIVE = PATH .. "Buttons\\active_button",
         SPECIALIZATION_BUTTON_BG_DISABLED = PATH .. "Buttons\\locked_button",
         DEFAULT_BOOK = PATH .. "tabBG\\spellbook_base",
         SPEC_RING = PATH .. "spec_ring",
         RING_POINTS = PATH .. "tab_points",
         MAIN_BG = PATH .. "background_empty",
-        --NORMAL_TEXTURE_BTN = PATH .. "ui-microbutton-ej-up",
-        --PUSHED_TEXTURE_BTN = PATH .. "ui-microbutton-ej-down",
+        NORMAL_TEXTURE_BTN = PATH .. "ui-microbutton-ej-up",
+        PUSHED_TEXTURE_BTN = PATH .. "ui-microbutton-ej-down",
         EMPTY_PROGRESS_BAR = PATH .. "main_bar",
         COLORED_PROGRESS_BAR = PATH .. "colored_bar",
         SHADOW_TEXTURE = PATH .. "shadow_effect",
@@ -38,4 +38,3 @@ CONSTANTS = {
     },
     CLASS = UnitClass("player")
 }
-

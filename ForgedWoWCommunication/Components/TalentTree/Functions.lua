@@ -1,7 +1,7 @@
 function HideMainWindow()
     if TalentTreeWindow:IsShown() then
         TalentTreeWindow:Hide()
-        -- ForgedWoWButton:SetButtonState("NORMAL");
+        ForgedWoWMicrobarButton:SetButtonState("NORMAL");
     end
 end
 
@@ -9,11 +9,11 @@ function ToggleMainWindow()
     if TalentTreeWindow:IsShown() then
         TalentTreeWindow:Hide()
         PlaySound("TalentScreenClose");
-        -- ForgedWoWButton:SetButtonState("NORMAL");
+        ForgedWoWMicrobarButton:SetButtonState("NORMAL");
     else
         TalentTreeWindow:Show()
         PlaySound("TalentScreenOpen");
-        -- ForgedWoWButton:SetButtonState("PUSHED", 1);
+        ForgedWoWMicrobarButton:SetButtonState("PUSHED", 1);
     end
     if SpellBookFrame:IsShown() then
         SpellBookFrame:Hide();
@@ -27,7 +27,7 @@ function ToggleMainWindow()
 end
 
 TalentTreeWindow:HookScript("OnHide", function()
-    -- ForgedWoWButton:SetButtonState("NORMAL");
+    ForgedWoWMicrobarButton:SetButtonState("NORMAL");
 end)
 
 function FindTabInForgeSpell(tabId)
@@ -96,7 +96,7 @@ function RankUpTalent(frame, rank, talent, tabId)
         local CurrentRank, SpellId, NextSpellId = GetSpellIdAndNextRank(tabId, talent);
         if IsUnlocked(CurrentRank, talent.NumberOfRanks) then
             frame.Border:SetBackdrop({
-                
+
                 bgFile = CONSTANTS.UI.BORDER_UNLOCKED
             })
         else
@@ -589,8 +589,8 @@ function CreateTooltip(spell, SpellId, NextSpellId, parent, CurrentRank)
         SecondRankToolTip:SetBackdropColor(0, 0, 0, 0);
         SecondRankToolTip:AddLine(" ")
 
-            SecondRankToolTip:SetPoint("TOP",FirstRankToolTip, "TOP",0, -(FirstRankToolTip:GetHeight()+25));
-            FirstRankToolTip:SetSize(FirstRankToolTip:GetWidth(),
+        SecondRankToolTip:SetPoint("TOP", FirstRankToolTip, "TOP", 0, -(FirstRankToolTip:GetHeight() + 25));
+        FirstRankToolTip:SetSize(FirstRankToolTip:GetWidth(),
             FirstRankToolTip:GetHeight() + SecondRankToolTip:GetHeight() + 30)
     end
 end

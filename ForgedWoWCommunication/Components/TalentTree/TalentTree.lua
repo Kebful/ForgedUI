@@ -77,6 +77,7 @@ StaticPopupDialogs["CONFIRM_TALENT_WIPE"] = {
         local playerLevel = UnitLevel("player") -- Get the player's level
         if playerLevel >= 10 then
             PushForgeMessage(ForgeTopic.UNLEARN_TALENT, "-1;0")
+            -- TalentTree.FORGE_SELECTED_TAB.Id;-1
             DEFAULT_CHAT_FRAME:AddMessage("Your talents have been reset.", 1, 1, 0) -- Sends a yellow message
             local talent = GetPointByCharacterPointType(tostring(CharacterPointType.TALENT_SKILL_TREE), true)
             TalentTreeWindow.PointsBottomLeft.Points:SetText(talent.AvailablePoints .. " talent points")
@@ -94,7 +95,7 @@ StaticPopupDialogs["CONFIRM_TALENT_WIPE"] = {
         self:SetPoint("CENTER", 50, 250) -- position it to center
         self:SetSize(800, 800) -- adjust the size as necessary
     end
-    
+
 }
 
 local resetButton = CreateFrame("Button", "ResetTalentsButton", TalentTreeWindow, "UIPanelButtonTemplate")
